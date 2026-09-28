@@ -14,17 +14,26 @@ namespace ToDoConsole.Services
     public class Storage
     {
         private static string path = "C:\\Users\\User\\source\\repos\\ToDoConsole\\ToDoConsole\\Data\\TodoList.json";
-        public static void SaveToFile(List<TodoItem> data)
+        internal static List<TodoItem> toDoList = ReadFromFile(); // gets the item from the file, this is what we are working with
+        public static void SaveToFile()
         {
-            string SaveFile = JsonSerializer.Serialize(data);
+            string SaveFile = JsonSerializer.Serialize(toDoList);
             File.WriteAllText(path, SaveFile);
         }
-        public static void AppendToFile(List<TodoItem> data)
+        public static void AppendToFile(TodoItem newItem)
         {
+            string jsonString = File.ReadAllText(path);
+            List<TodoItem> todoitem = JsonSerializer.Deserialize<List<TodoItem>>(jsonString) ?? new List<TodoItem>();
+            jsonString = JsonSerializer.Serialize(todoitem);
+            File.WriteAllText(path, jsonString);
+
+            toDoList.Add(newItem);
             //string SaveFile = JsonSerializer.Serialize(data);
             //File.AppendAllText(path, SaveFile);
         }
-        public static void ReadFromFile()
+
+        //reads the items from the json file
+        public static List<TodoItem> ReadFromFile()
         {
             try
             {
@@ -32,17 +41,15 @@ namespace ToDoConsole.Services
                 List<TodoItem>? todoitem = JsonSerializer.Deserialize<List<TodoItem>>(jsonString);
                 if (todoitem != null)
                 {
-                    foreach (var item in todoitem)
-                    {
-                        Console.WriteLine($"Title: {item.Title}");
-                        Console.WriteLine($"Description: {item.Description} \n");
-                    }
+                    
+                    return todoitem;
                 }
             }
             catch (Exception e)
             {
                 Console.WriteLine($"Error: {e.Message}");
             }
+                return null;
         }
 
     }
