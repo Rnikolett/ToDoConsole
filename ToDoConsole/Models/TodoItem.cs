@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Text.Json.Serialization;
 
 namespace ToDoConsole.Models
 {
@@ -19,16 +15,18 @@ namespace ToDoConsole.Models
         public string? Description { get; set; }
         public bool IsCompleted { get; set; }
         public DateTime CreatedAt { get; set; }
-        public DateTime? DueDate { get; set; }
+        public DateTime DueDate { get; set; }
         public PriorityLevels Priority { get; set; }
+        [JsonIgnore] //attribute
+        public bool OverDue => DueDate < DateTime.Today; // get only property
 
-        public TodoItem(int id, string title, string? description, DateTime? duedate, PriorityLevels priority)
+        public TodoItem(int id, string title, string? description, DateTime duedate, PriorityLevels priority)
         {
             Id = id; //required
             Title = title; //required
             Description = description; //otional
             IsCompleted = false; //set not completed
-            CreatedAt = DateTime.Now.Date; //set today
+            CreatedAt = DateTime.Today; //set today
             DueDate = duedate; //optional?
             Priority = priority; //optional? - set Low
         }

@@ -9,7 +9,7 @@
 *.user
 *.userosscache
 *.sln.docstates
-ToDoConsole\Data
+ToDoConsole/Data/
 # User-specific files (MonoDevelop/Xamarin Studio)
 *.userprefs
 

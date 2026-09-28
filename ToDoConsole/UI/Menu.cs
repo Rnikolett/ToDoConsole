@@ -1,12 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Runtime.CompilerServices;
-using System.Security.Cryptography.X509Certificates;
-using System.Text;
-using System.Threading.Tasks;
-using ToDoConsole.Models;
-using ToDoConsole.Services;
+﻿using ToDoConsole.Services;
 
 namespace ToDoConsole.UI
 {
@@ -26,16 +18,14 @@ namespace ToDoConsole.UI
                 string? menuswitch = Console.ReadLine();
                 Console.WriteLine("\n");
 
-                //TODO a caseket függvényekbe kiszervezni
-
                 switch (menuswitch)
                 {
                     case "1":
-                        TodoService.NewTaskInteraction();
+                        TodoService.CreateTask();
                         break;
 
                     case "2":
-                        Console.WriteLine("\nEdit is not yet available\n");
+                        Console.WriteLine("\nEdit is not yet available\n"); //TODO edit
                         break;
 
                     case "3":
@@ -47,16 +37,10 @@ namespace ToDoConsole.UI
                         break;
 
                     case "5":
-                        canExit = TodoService.saveExit();
-                        if (canExit)
-                        {
-                            Environment.Exit(0);
-                        }
+                        canExit = TodoService.SaveExit();
                         break;
                 }
             }
         }
-
-        
     }
 }
